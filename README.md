@@ -1,5 +1,7 @@
-# test-actions
-Testing github actions
+# MS Build and SDK Projects
+`Directory.Build.props` and `.props` files to set settings of .net core projects.
+
+[![.Net 7 CI](https://github.com/K4PS3/test-actions/actions/workflows/Build-Test-Pack.yml/badge.svg)](https://github.com/K4PS3/test-actions/actions/workflows/Build-Test-Pack.yml)
 
 # Testing .net 7 build
 Test building .net 7 web app by actions.
