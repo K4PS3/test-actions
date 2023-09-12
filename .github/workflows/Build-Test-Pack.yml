@@ -1,27 +1,42 @@
 ﻿name: .Net 7 CI
 
 on: [push]
+
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
+
     steps:
       - name: Fetch The Code
         uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
       - name: Setup .NET Core 7 SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.0.x'
+
       - name: Install dependencies
         run: dotnet restore /property:Configuration=Release
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
       - name: Test
         run: dotnet test --settings .runsettings --configuration Release --logger trx --verbosity normal --no-restore --no-build
+
       - name: Create the package
         run: dotnet pack --configuration Release
+
       - name: Save test results
         uses: actions/upload-artifact@v3
         with:
