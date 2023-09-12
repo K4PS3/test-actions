@@ -3,7 +3,7 @@
 	
 	<RunConfiguration>
 		<MaxCpuCount>0</MaxCpuCount>
-		<ResultsDirectory>.\Build\TestResults</ResultsDirectory>
+		<ResultsDirectory>./Build/TestResults</ResultsDirectory>
 	</RunConfiguration>
 
 	<LoggerRunSettings>
