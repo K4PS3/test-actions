@@ -1,9 +1,6 @@
 ﻿name: .Net 7 CI
 
-on:
-  push:
-    branches:
-    - master
+on: [push]
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
