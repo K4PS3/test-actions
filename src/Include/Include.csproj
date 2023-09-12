@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<GeneratedFilesImported>1</GeneratedFilesImported>
+	</PropertyGroup>
+	
+	<Import 
+		Project="..\..\projects.props"
+		Condition=" '$(RootImported)' != '1' " />
+	<Import 
+		Project="Sdk.props"
+		Sdk="Microsoft.NET.Sdk"
+		Condition=" '$(RootImported)' != '1' " />
+	<Import 
+		Project="Sdk.targets"
+		Sdk="Microsoft.NET.Sdk"
+		Condition=" '$(RootImported)' != '1' " />
+	
+	<ItemGroup Label="ForEasyAccess">
+		<None Include="$(RootFolder).github\workflows\**\*.yml" Visible="True" Link="Workflows\%(RecursiveDir)%(Filename)%(Extension)" />
+		<None Include="$(BuildFolder)_Generated\**\*.*"         Visible="True" Link="Generated\%(RecursiveDir)%(Filename)%(Extension)" />
+		<None Include="$(RootFolder)src\Include\Include.csproj" Visible="True" Link="MS-Build\Include.csproj" />
+		<None Include="$(RootFolder)projects.props"             Visible="True" Link="MS-Build\projects.props" />
+		<None Include="$(RootFolder)Directory.Build.props"      Visible="True" Link="MS-Build\Directory.Build.props" />
+		<None Include="$(RootFolder).gitignore"                 Visible="True" Link="Config\.gitignore" />
+		<None Include="$(RootFolder).runsettings"               Visible="True" Link="Config\.runsettings" />
+		<None Include="$(RootFolder)global.json"                Visible="True" Link="Config\global.json" />
+		<None Include="$(RootFolder)nuget.config"               Visible="True" Link="Config\nuget.config" />
+		<None Include="$([MSBuild]::GetPathOfFileAbove(LICENSE))"   Pack="true" PackagePath="\" Link="\LICENSE.txt" />
+		<None Include="$([MSBuild]::GetPathOfFileAbove(README.md))" Pack="true" PackagePath="\" Link="\README.md" />
+		<None Include="$([MSBuild]::GetPathOfFileAbove(icon.png))"  Pack="true" PackagePath="\" Link="\icon.png" />
+	</ItemGroup>
+	
+</Project>

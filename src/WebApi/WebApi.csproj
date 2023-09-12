@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import
+		Project="Sdk.props"
+		Sdk="Microsoft.NET.Sdk.Web" />
+
+	<PropertyGroup>
+		<DebugMsBuild>true</DebugMsBuild>
+		<AddSourceLink>true</AddSourceLink>
+		<Docs>false</Docs>
+		<SkipBin>false</SkipBin>
+		<SkipObj>false</SkipObj>
+		<IsTestProj>false</IsTestProj>
+	</PropertyGroup>
+
+	<Import
+		Project="Sdk.targets"
+		Sdk="Microsoft.NET.Sdk.Web" />
+
+	<ItemGroup
+		Label="SourceLinkPackages"
+		Condition=" '$(AddSourceLink)' == 'true' ">
+		<PackageReference
+			Include="Microsoft.SourceLink.GitHub"
+			Version="1.1.1"
+			PrivateAssets="All"/>
+	</ItemGroup>
+
+</Project>

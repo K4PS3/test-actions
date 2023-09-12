@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<RootImported>1</RootImported>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<ProjectName   Condition=" '$(ProjectName)'   == '' ">$(MSBuildProjectName)</ProjectName>
+		<RootFolder>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)))</RootFolder>
+		<BuildFolder>$(RootFolder)Build\</BuildFolder>
+		<SrcFolder>$(RootFolder)src\</SrcFolder>
+		<Prefix>App</Prefix>
+		<Prefix Condition=" '$(IsTestProj)' == 'true' ">Test</Prefix>
+		<ProjectOutputPath>$(BuildFolder)$(Prefix).$(Configuration)\$(ProjectName)\</ProjectOutputPath>
+		<ProjectObjPath>$(BuildFolder)obj.$(Configuration)\$(ProjectName)\</ProjectObjPath>
+	</PropertyGroup>
+
+	<Import 
+		Project="$(SrcFolder)Include\Include.csproj"
+		Condition=" '$(GeneratedFilesImported)' != '1' " />
+
+	<PropertyGroup Label="SettingsPerProject">
+		<AssemblyName    Condition=" '$(AssemblyName)'    == '' ">$(ProjectName)</AssemblyName>
+		<AssemblyTitle   Condition=" '$(AssemblyTitle)'   == '' ">$([System.Text.RegularExpressions.Regex]::Replace($(AssemblyName), `((?&lt;=[a-z])[A-Z]|[A-Z](?=[a-z]))`, ' $1'))</AssemblyTitle>
+		<Title           Condition=" '$(Title)'           == '' ">$(AssemblyTitle)</Title>
+		<RootNamespace   Condition=" '$(RootNamespace)'   == '' ">$(AssemblyName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyVersion Condition=" '$(AssemblyVersion)' == '' ">1.0.0.1</AssemblyVersion>
+		<FileVersion     Condition=" '$(FileVersion)'     == '' ">1.0.0.1</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Label="GlobalSettingsEnums">
+		<LangVersion>11.0</LangVersion>
+		<Features>strict</Features>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+	</PropertyGroup>
+
+	<PropertyGroup Label="GlobalSettingsFlags">
+		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+		<Deterministic>true</Deterministic>
+		<CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+		<ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Debugging">
+		<Optimize>false</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Generated">
+		<CompilerGeneratedFilesOutputPath>$(BuildFolder)_Generated</CompilerGeneratedFilesOutputPath>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>false</GenerateBindingRedirectsOutputType>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Output">
+		<OutputType Condition=" '$(OutputType)' == '' ">Library</OutputType>
+		<TargetFramework Condition=" '$(TargetFramework)'  == '' and
+						             '$(TargetFrameworks)' == ''">net7.0</TargetFramework>
+		<PlatformTarget Condition=" '$(PlatformTarget)'  == '' ">AnyCPU</PlatformTarget>
+		<OutputPath Condition=" '$(SkipBin)' != 'true' ">$(ProjectOutputPath)</OutputPath>
+		<BaseIntermediateOutputPath  Condition=" '$(SkipObj)' != 'true' ">$(ProjectObjPath)</BaseIntermediateOutputPath>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Label="TypeScript">
+		<TypeScriptJSXEmit>none</TypeScriptJSXEmit>
+		<TypeScriptModuleKind>none</TypeScriptModuleKind>
+		<TypeScriptTarget>ES5</TypeScriptTarget>
+		<TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+		<TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+		<TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+		<TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+		<TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+		<TypeScriptSourceMap>True</TypeScriptSourceMap>
+	</PropertyGroup>
+
+	<PropertyGroup Label="GenerateDocumentation">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>$(BuildFolder)Docs\$(ProjectName).xml</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Label="DoNotGenerateDocumentation" Condition=" '$(Docs)' != 'true' ">
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Label="AnalyzingAndErrors">
+		<WarningLevel>7</WarningLevel>
+		<ErrorReport>prompt</ErrorReport>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+		<AnalysisLevel>latest-all</AnalysisLevel>
+		<AnalysisMode>all</AnalysisMode>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
+		<RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Signing">
+		<SignAssembly>false</SignAssembly>
+		<DelaySign>false</DelaySign>
+		<AssemblyOriginatorKeyFile 
+			Condition=" '$(SignAssembly)' == 'true' ">.\key.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+
+	<PropertyGroup Label="SourceLink">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Packaging">
+		<PackageId>$(AssemblyName)</PackageId>
+		<Product>$(AssemblyName)</Product>
+		<Version>1.0.0.0</Version>
+		<Authors>khvb6</Authors>
+		<Company>None. Ltd.</Company>
+		<Copyright>Copyright @ 2023</Copyright>
+		<Description>This is A Test Web Api</Description>
+		<PackageTags>web;net;api</PackageTags>
+		<PackageReleaseNotes>
+			- Test project for github actions.
+		</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/K4PS3/test-actions</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/K4PS3/test-actions</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
+		<DevelopmentDependency>False</DevelopmentDependency>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<IsPackable Condition=" '$(IsPackable)' == '' ">true</IsPackable>
+		<IncludeBuildOutput>True</IncludeBuildOutput>
+		<SuppressDependenciesWhenPacking>False</SuppressDependenciesWhenPacking>
+		<IsPublishable>True</IsPublishable>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackAsTool>False</PackAsTool>
+		<PackageOutputPath Condition=" '$(RootFolder)' != '' ">$(RootFolder)Build\AppPackages\</PackageOutputPath>
+		<PackageOutputPath Condition=" '$(PackageOutputPath)' == '' ">$(MSBuildThisFileDirectory)Build\AppPackages\</PackageOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<Optimize>True</Optimize>
+		<AnalysisMode>None</AnalysisMode>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(GITHUB_ACTIONS)' == 'true' ">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup Label="GlobalUsings">
+		<Using Include="System" />
+		<Using Include="System.Collections" />
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.Collections.Generic" />
+		<Using Include="System.Linq" />
+		<Using Include="System.Linq.Expressions" />
+		<Using Include="System.Text.RegularExpressions" />
+		<Using Include="System.Threading" />
+		<Using Include="System.Threading.Tasks" />
+		<Using Include="System.Collections.ObjectModel" />
+	</ItemGroup>
+
+	<ItemGroup Label="DisableCLSCompliant">
+		<AssemblyAttribute Include="System.CLSCompliantAttribute">
+			<_Parameter1>false</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+	
+	<Target Name="ShowInfo"
+			BeforeTargets="PrepareForBuild"
+			Condition=" '$(DebugMsBuild)' == 'true' ">
+		<PropertyGroup>
+			<ConfigMessage>
+				-----------------------------------------------------------
+				| Project [ $(AssemblyName) ] ->
+				|	Assembly Title           : $(AssemblyTitle)
+				|	Root Namespace           : $(RootNamespace)
+				|	Allow Unsafe Blocks      : $(AllowUnsafeBlocks)
+				|..........................................................
+				|	Output Type              : $(OutputType)
+				|	Configuration            : $(Configuration)
+				|	Platform Target          : $(PlatformTarget)
+				|	Target Framework (s)     : $(TargetFrameworks)
+				|	Target Framework         : $(TargetFramework)
+				|	Runtime Identifier (s)   : $(RuntimeIdentifiers)
+				|	Runtime Identifier       : $(RuntimeIdentifier)
+				|----------------------------------------------------------
+				| Solution Global ->
+				|	Src Folder               : $(SrcFolder)
+				|	Package Output Path      : $(PackageOutputPath)
+				|	Build Folder             : $(BuildFolder)
+				|	Generated Files Path     : $(CompilerGeneratedFilesOutputPath)
+				|----------------------------------------------------------
+				| Project output ->
+				|	Output Path              : $(OutputPath)
+				|	Intermediate Output Path : $(BaseIntermediateOutputPath)
+				-----------------------------------------------------------
+			</ConfigMessage>
+		</PropertyGroup>
+		<Message Importance="high" Text="$(ConfigMessage)" />
+	</Target>
+
+	<Target Name="AdjustDefineConstants"
+			BeforeTargets="PrepareForBuild">
+		<PropertyGroup>
+			<DefineConstants Condition=" '$(AddRuntimeCompilation)' == '1' ">$(DefineConstants);AddRuntimeCompilation</DefineConstants>
+			<DefineConstantsMessage>
+				-----------------------------------------------------------
+				| Prepare For Build.
+				| $(ProjectName) -> DefineConstants is now :
+				|	$(DefineConstants)
+				-----------------------------------------------------------
+			</DefineConstantsMessage>
+		</PropertyGroup>
+		<Message Importance="high"
+				 Text="$(DefineConstantsMessage)" />
+	</Target>
+
+</Project>
