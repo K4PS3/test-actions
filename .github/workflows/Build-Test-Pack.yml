@@ -1,6 +1,16 @@
 ﻿name: .Net 7 CI
 
-on: [push]
+on:
+
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: "Manual run"
 
 jobs:
   build_and_test:
