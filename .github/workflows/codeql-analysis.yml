@@ -1,13 +1,8 @@
 name: "CodeQL"
 
 on:
-
   push:
     branches: [main]
-    paths:
-    - '**.cs'
-    - '**.csproj'
-
   workflow_dispatch:
     inputs:
       reason:
@@ -17,7 +12,6 @@ on:
 
 jobs:
   analyze:
-
     name: analyze
     runs-on: ubuntu-latest
 
@@ -30,7 +24,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        fetch-depth: 2
+        fetch-depth: 0
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
