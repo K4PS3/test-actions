@@ -10,6 +10,11 @@ on:
         required: true
         default: "Manual run"
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  
 jobs:
   analyze:
     name: analyze
