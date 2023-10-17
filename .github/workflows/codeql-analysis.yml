@@ -38,14 +38,14 @@ jobs:
         dotnet-version: '7.0.x'
         dotnet-quality: 'preview'
 
-    #- name: Install dependencies
-    #  run: dotnet restore /property:Configuration=Debug
+    - name: Install dependencies
+      run: dotnet restore /property:Configuration=Debug
 
-    #- name: Build
-    #  run: dotnet build --configuration Debug --no-restore
+    - name: Build
+      run: dotnet build --configuration Debug --no-restore
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
