@@ -3,6 +3,7 @@ name: "CodeQL"
 on:
   push:
     branches: [main]
+    paths: [ 'src/**', 'test/**', 'Directory.Build.props', 'projects.props', 'global.json' ]
   workflow_dispatch:
     inputs:
       reason:
