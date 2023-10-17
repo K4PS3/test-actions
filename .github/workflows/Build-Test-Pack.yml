@@ -1,4 +1,4 @@
-﻿name: .Net 7 CI
+name: .Net 7 CI
 
 on:
 
@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Fetch The Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: actions/cache@v3
         with:
