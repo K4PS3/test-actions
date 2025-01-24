@@ -1,8 +1,12 @@
+#pragma warning disable CA1812
+
+[assembly: DiscoverInternals]
+
 namespace UnitTests;
 
 [TestClass]
-public class UnitTest1 {
+internal sealed class UnitTest1 {
     [TestMethod]
-    public void TestMethod1() {
+    internal void TestMethod1() {
     }
 }

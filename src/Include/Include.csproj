@@ -5,17 +5,11 @@
 		<GeneratedFilesImported>1</GeneratedFilesImported>
 	</PropertyGroup>
 	
-	<Import 
-		Project="..\..\projects.props"
-		Condition=" '$(RootImported)' != '1' " />
-	<Import 
-		Project="Sdk.props"
-		Sdk="Microsoft.NET.Sdk"
-		Condition=" '$(RootImported)' != '1' " />
-	<Import 
-		Project="Sdk.targets"
-		Sdk="Microsoft.NET.Sdk"
-		Condition=" '$(RootImported)' != '1' " />
+	<Import Condition=" '$(RootImported)' != '1' " Project="..\..\projects.props" />
+	
+	<Import Condition=" '$(RootImported)' != '1' " Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+	<PropertyGroup />
+	<Import Condition=" '$(RootImported)' != '1' " Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 	
 	<ItemGroup Label="ForEasyAccess">
 		<None Include="$(RootFolder).github\workflows\**\*.yml" Visible="True" Link="Workflows\%(RecursiveDir)%(Filename)%(Extension)" />
