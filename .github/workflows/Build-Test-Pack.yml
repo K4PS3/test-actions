@@ -18,7 +18,11 @@ jobs:
       packages: write
       contents: read
     steps:
-      - name: Fetch The Code
+      - name: "Show manual run reason"
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "Reason: ${{ github.event.inputs.reason }}"    
+      - name: Get the source code
         uses: actions/checkout@v4
       - uses: actions/cache@v4
         with:
