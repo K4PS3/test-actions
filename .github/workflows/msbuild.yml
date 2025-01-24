@@ -46,21 +46,12 @@ jobs:
         vs-prerelease: true
         msbuild-architecture: 'x64'
 
-    - name: Setup MSBuild (arm64)
-      if: always()
-      id: setup_msbuild_path_arm
-      uses: microsoft/setup-msbuild@v2.0.0
-      with:
-        vs-prerelease: true
-        msbuild-architecture: 'arm64'
-
     - name: MSBuild path
       run: |
         echo "vswhere-path: ${{ steps.setup_msbuild_explicit.outputs.msbuildPath }}"
         echo "PATH        : ${{ steps.setup_msbuild_path.outputs.msbuildPath }}"
         echo "Fallback    : ${{ steps.setup_msbuild_fallback.outputs.msbuildPath }}"
         echo "X64 PATH    : ${{ steps.setup_msbuild_path_x64.outputs.msbuildPath }}"
-        echo "ARM PATH    : ${{ steps.setup_msbuild_path_arm.outputs.msbuildPath }}"
 
     - name: MSBuild version
       run: msbuild -version
