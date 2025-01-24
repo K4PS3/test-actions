@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
@@ -12,15 +12,26 @@
 	<Import Condition=" '$(RootImported)' != '1' " Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 	
 	<ItemGroup Label="ForEasyAccess">
-		<None Include="$(RootFolder).github\workflows\**\*.yml" Visible="True" Link="Workflows\%(RecursiveDir)%(Filename)%(Extension)" />
-		<None Include="$(BuildFolder)_Generated\**\*.*"         Visible="True" Link="Generated\%(RecursiveDir)%(Filename)%(Extension)" />
-		<None Include="$(RootFolder)src\Include\Include.csproj" Visible="True" Link="MS-Build\Include.csproj" />
-		<None Include="$(RootFolder)projects.props"             Visible="True" Link="MS-Build\projects.props" />
-		<None Include="$(RootFolder)Directory.Build.props"      Visible="True" Link="MS-Build\Directory.Build.props" />
-		<None Include="$(RootFolder).gitignore"                 Visible="True" Link="Config\.gitignore" />
-		<None Include="$(RootFolder).runsettings"               Visible="True" Link="Config\.runsettings" />
-		<None Include="$(RootFolder)global.json"                Visible="True" Link="Config\global.json" />
-		<None Include="$(RootFolder)nuget.config"               Visible="True" Link="Config\nuget.config" />
+		<None Include="$(RootFolder).github\workflows\**\*.yml" Link="Workflows\%(RecursiveDir)%(Filename)%(Extension)" />
+		<None Include="$(RootFolder).github\*.yml"    Link="Workflows.Config\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<None Include="$(BuildFolder)_Generated\**\*.*"         Link="Generated\%(RecursiveDir)%(Filename)%(Extension)" />
+		<None Include="$(RootFolder)src\Include\Include.csproj" Link="MS-Build\Include.csproj" />
+		<None Include="$(RootFolder)projects.props"             Link="MS-Build\projects.props" />
+		<None Include="$(RootFolder)Directory.Build.props"      Link="MS-Build\Directory.Build.props" />
+  </ItemGroup>
+  
+  <ItemGroup>
+		<None Include="$(RootFolder).gitignore"   Link="Config\.gitignore" />
+		<None Include="$(RootFolder).runsettings" Link="Config\.runsettings" />
+		<None Include="$(RootFolder)global.json"  Link="Config\global.json" />
+		<None Include="$(RootFolder)nuget.config" Link="Config\nuget.config" />
+    <None Include="$(RootFolder).editorconfig" Link="Config\.editorconfig" />
+  </ItemGroup>
+  
+  <ItemGroup>
 		<None Include="$([MSBuild]::GetPathOfFileAbove(LICENSE))"   Pack="true" PackagePath="\" Link="\LICENSE.txt" />
 		<None Include="$([MSBuild]::GetPathOfFileAbove(README.md))" Pack="true" PackagePath="\" Link="\README.md" />
 		<None Include="$([MSBuild]::GetPathOfFileAbove(icon.png))"  Pack="true" PackagePath="\" Link="\icon.png" />
