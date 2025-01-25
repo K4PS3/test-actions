@@ -6,11 +6,6 @@ on:
     paths: [ 'src/**', 'test/**', 'Directory.Build.props', 'projects.props', 'global.json' ]
   workflow_dispatch:
 
-permissions:
-  actions: read
-  contents: read
-  security-events: write
-  
 jobs:
   analyze:
     name: analyze
@@ -19,6 +14,11 @@ jobs:
       fail-fast: false
       matrix:
         language: ['csharp']
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -44,3 +44,5 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"

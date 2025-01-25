@@ -18,58 +18,58 @@ jobs:
         configuration: [Debug, Release]
 
     steps:  
-    - name: Get the source code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Get the source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup MSBuild (vswhere-path)
-      id: setup_msbuild_explicit
-      uses: microsoft/setup-msbuild@v2.0.0
-      with:
-        vswhere-path: C:\ProgramData\chocolatey\bin
+      - name: Setup MSBuild (vswhere-path)
+        id: setup_msbuild_explicit
+        uses: microsoft/setup-msbuild@v2.0.0
+        with:
+          vswhere-path: C:\ProgramData\chocolatey\bin
 
-    - name: Setup MSBuild (PATH)
-      id: setup_msbuild_path
-      uses: microsoft/setup-msbuild@v2.0.0
+      - name: Setup MSBuild (PATH)
+        id: setup_msbuild_path
+        uses: microsoft/setup-msbuild@v2.0.0
 
-    - name: Setup MSBuild (fallback)
-      id: setup_msbuild_fallback
-      uses: microsoft/setup-msbuild@v2.0.0
-      env:
-        PATH: ''
+      - name: Setup MSBuild (fallback)
+        id: setup_msbuild_fallback
+        uses: microsoft/setup-msbuild@v2.0.0
+        env:
+          PATH: ''
 
-    - name: Setup MSBuild (x64)
-      if: always()
-      id: setup_msbuild_path_x64
-      uses: microsoft/setup-msbuild@v2.0.0
-      with:
-        vs-prerelease: true
-        msbuild-architecture: 'x64'
+      - name: Setup MSBuild (x64)
+        if: always()
+        id: setup_msbuild_path_x64
+        uses: microsoft/setup-msbuild@v2.0.0
+        with:
+          vs-prerelease: true
+          msbuild-architecture: 'x64'
 
-    - name: MSBuild path
-      run: |
-        echo "vswhere-path: ${{ steps.setup_msbuild_explicit.outputs.msbuildPath }}"
-        echo "PATH        : ${{ steps.setup_msbuild_path.outputs.msbuildPath }}"
-        echo "Fallback    : ${{ steps.setup_msbuild_fallback.outputs.msbuildPath }}"
-        echo "X64 PATH    : ${{ steps.setup_msbuild_path_x64.outputs.msbuildPath }}"
+      - name: MSBuild path
+        run: |
+          echo "vswhere-path: ${{ steps.setup_msbuild_explicit.outputs.msbuildPath }}"
+          echo "PATH        : ${{ steps.setup_msbuild_path.outputs.msbuildPath }}"
+          echo "Fallback    : ${{ steps.setup_msbuild_fallback.outputs.msbuildPath }}"
+          echo "X64 PATH    : ${{ steps.setup_msbuild_path_x64.outputs.msbuildPath }}"
 
-    - name: MSBuild version
-      run: msbuild -version
+      - name: MSBuild version
+        run: msbuild -version
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2.0.0
-      with:
-        msbuild-architecture: 'x64'
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2.0.0
+        with:
+          msbuild-architecture: 'x64'
 
-    - name: Restore NuGet packages
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+      - name: Restore NuGet packages
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+        env:
+          Configuration: ${{ matrix.configuration }}
 
-    - name: Build
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+      - name: Build
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+        env:
+          Configuration: ${{ matrix.configuration }}

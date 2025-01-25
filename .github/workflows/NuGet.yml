@@ -1,0 +1,27 @@
+name: NuGet Restore
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  build:
+    name: NuGet@${{ matrix.nuget }} sample
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+        nuget: [latest, preview, 4.x, 5.3.1]
+
+    steps:
+      - name: Get the source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        
+      - name: Setup NuGet.exe
+        uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: ${{ matrix.nuget }}
+
+      - name: Restore NuGet packages
+        run: nuget restore Github.Actions.sln
