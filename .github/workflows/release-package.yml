@@ -88,5 +88,5 @@ jobs:
         with:
           tag: ${{ needs.build.outputs.Version }}
           name: Release ${{ needs.build.outputs.Version }}
-          artifacts: "Build/AppPackages/*"
+          artifacts: "AppPackages/*"
           token: ${{ secrets.NUGET_PACKAGE_TOKEN }}
