@@ -29,7 +29,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          config-file: ../codeql.yml
+          config-file: ./.github/codeql.yml
           languages: ${{ matrix.language }}
 
       - name: Setup .NET Core 9 SDK
