@@ -1,9 +1,10 @@
-name: .Net 9 CI
+name: .NET 9 CI
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
     paths: [ 'src/**', 'test/**', 'Directory.Build.props', 'projects.props', 'global.json' ]
+
   workflow_dispatch:
     inputs:
       reason:
@@ -12,38 +13,41 @@ on:
         default: "Manual run"
 
 jobs:
-  build_and_test:
+  build_and_test:  
     runs-on: ubuntu-latest
     permissions:
-      packages: write
       contents: read
+      packages: write
+
     steps:
-      - name: "Show manual run reason"
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          echo "Reason: ${{ github.event.inputs.reason }}"    
-      - name: Get the source code
-        uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-      - name: Setup .NET Core 9 SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
-      - name: Install dependencies
-        run: dotnet restore /property:Configuration=Release
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-      - name: Test
-        run: dotnet test --settings .runsettings --configuration Release --logger trx --verbosity normal --no-restore --no-build
-      - name: Create the package
-        run: dotnet pack --configuration Release
-      - name: Save test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: dotnet-results
-          path: ./Build/
+    - name: "Show manual run reason"
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo "Reason: ${{ github.event.inputs.reason }}"    
+    - name: Get the source code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: Setup .NET 9 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    - name: Install dependencies
+      run: dotnet restore /property:Configuration=Release
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --settings .runsettings --configuration Release --logger trx --verbosity normal --no-restore --no-build
+    - name: Create the package
+      run: dotnet pack --configuration Release
+    - name: Save test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: dotnet-results
+        path: ./Build/
