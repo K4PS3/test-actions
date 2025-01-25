@@ -1,0 +1,6 @@
+fail_on_severity: 'critical'
+comment_summary_in_pr: always
+license_check: true
+allow_licenses:
+  - 'GPL-3.0'
+  - 'MIT'
