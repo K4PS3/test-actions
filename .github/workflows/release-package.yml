@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nugetPackage
-          path: ./Build/
+          path: ./Build/AppPackages
 
   release:
     runs-on: ubuntu-latest    
@@ -63,12 +63,15 @@ jobs:
         with:
           name: nugetPackage
 
+      - name: Display all files
+        run: ls -a
+
       - name: Prep packages
         run: dotnet nuget add source --username k4ps3 --password ${{ secrets.NUGET_PACKAGE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/k4ps3/index.json"
 
       - name: Push package to GitHub packages 
         if: needs.build.outputs.CommitsSinceVersionSource > 0
-        run: dotnet nuget push nugetPackage/Build/AppPackages/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}  --source "github"
+        run: dotnet nuget push nugetPackage/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}  --source "github"
     
       - name: Create Release
         if: 1 == 0
